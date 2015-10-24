@@ -5,8 +5,11 @@ using System.Collections;
 public class MainMenu : MonoBehaviour 
 {
     int selected;
-    public GameObject[] _button;
+    public Button[] _button;
     bool transition;
+
+    //enum buttons { PLAY = 0, CREDITS, QUIT};
+
     // Use this for initialization
     void Start()
     {
@@ -18,14 +21,14 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (Input.anyKeyDown && !transition)
         {
             if ((Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0)) && selected != 0)
             {
-                transition = true;
-                float fadetime = GameManager.manager.GetComponent<Fade>().BeginFade(1);
-                Invoke("PauseLoad", fadetime);
+                //transition = true;
+                //float fadetime = GameManager.manager.GetComponent<Fade>().BeginFade(1);
+                _button[selected - 1].onClick.Invoke();
+                //Invoke("PauseLoad", fadetime);
             }
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             {
@@ -75,14 +78,13 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    void PauseLoad()
+    public void PauseLoad(string levelName)
     {
+        Application.LoadLevel(levelName);
+    }
 
-        if (selected == _button.Length - 1)
-            Application.Quit();
-        else if (selected == 0)
-            Application.LoadLevel(0);
-        else if (selected == 1)
-            Application.LoadLevel(1);
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
