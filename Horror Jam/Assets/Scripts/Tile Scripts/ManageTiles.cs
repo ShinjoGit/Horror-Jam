@@ -138,16 +138,13 @@ public class ManageTiles : MonoBehaviour
             BC_Tile = BL_Tile;
 
             // create new tiles
-            TL_Tile = (GameObject)Instantiate(
-                BaseTile,
+            TL_Tile = RandomRocks(
                 new Vector3(TC_Tile.transform.position.x - positionOffset, TC_Tile.transform.position.y, TC_Tile.transform.position.z),
                 TC_Tile.transform.rotation);
-            L_Tile = (GameObject)Instantiate(
-                BaseTile,
+            L_Tile = RandomRocks(
                 new Vector3(C_Tile.transform.position.x - positionOffset, C_Tile.transform.position.y, C_Tile.transform.position.z),
                 C_Tile.transform.rotation);
-            BL_Tile = (GameObject)Instantiate(
-                BaseTile,
+            BL_Tile = RandomRocks(
                 new Vector3(BC_Tile.transform.position.x - positionOffset, BC_Tile.transform.position.y, BC_Tile.transform.position.z),
                 BC_Tile.transform.rotation);
         }
@@ -173,16 +170,13 @@ public class ManageTiles : MonoBehaviour
             BC_Tile = BR_Tile;
 
             // create new tiles
-            TR_Tile = (GameObject)Instantiate(
-                BaseTile,
+            TR_Tile = RandomRocks(
                 new Vector3(TC_Tile.transform.position.x + positionOffset, TC_Tile.transform.position.y, TC_Tile.transform.position.z),
                 TC_Tile.transform.rotation);
-            R_Tile = (GameObject)Instantiate(
-                BaseTile,
+            R_Tile = RandomRocks(
                 new Vector3(C_Tile.transform.position.x + positionOffset, C_Tile.transform.position.y, C_Tile.transform.position.z),
                 C_Tile.transform.rotation);
-            BR_Tile = (GameObject)Instantiate(
-                BaseTile,
+            BR_Tile = RandomRocks(
                 new Vector3(BC_Tile.transform.position.x + positionOffset, BC_Tile.transform.position.y, BC_Tile.transform.position.z),
                 BC_Tile.transform.rotation);
         }
@@ -190,14 +184,14 @@ public class ManageTiles : MonoBehaviour
 
     Vector3 RandomXZPosition(Vector3 pos)
     {
-        return new Vector3(pos.x + Random.Range(0, 25), pos.y + 2.0f, pos.z + Random.Range(0, 25));
+        return new Vector3(pos.x + Random.Range(0, 250), pos.y + 2.0f, pos.z + Random.Range(0, 250));
     }
 
     GameObject RandomRocks(Vector3 pos, Quaternion rot)
     {
         GameObject newTile = (GameObject)Instantiate(BaseTile, pos, rot);
 
-        int numRocks = Random.Range(1, 11);
+        int numRocks = Random.Range(1, 16);
         
         for (int i = 0; i < numRocks; ++i)
         {
