@@ -15,6 +15,9 @@ public class ManageTiles : MonoBehaviour
     public GameObject BC_Tile;
     public GameObject BL_Tile;
 
+    // update this when changing scale of tiles
+    public float positionOffset = 250.0f;
+
     public GameObject BaseTile;
     public GameObject rock;
 
@@ -70,27 +73,14 @@ public class ManageTiles : MonoBehaviour
             L_Tile = TL_Tile;
 
             // create new tiles
-            //TR_Tile = (GameObject)Instantiate(
-            //    BaseTile,
-            //    new Vector3(R_Tile.transform.position.x, R_Tile.transform.position.y, R_Tile.transform.position.z + 250.0f),
-            //    R_Tile.transform.rotation);
-            //TC_Tile = (GameObject)Instantiate(
-            //    BaseTile,
-            //    new Vector3(C_Tile.transform.position.x, C_Tile.transform.position.y, C_Tile.transform.position.z + 250.0f),
-            //    C_Tile.transform.rotation);
-            //TL_Tile = (GameObject)Instantiate(
-            //    BaseTile,
-            //    new Vector3(L_Tile.transform.position.x, L_Tile.transform.position.y, L_Tile.transform.position.z + 250.0f),
-            //    L_Tile.transform.rotation);
-
             TR_Tile = RandomRocks(
-                new Vector3(R_Tile.transform.position.x, R_Tile.transform.position.y, R_Tile.transform.position.z + 250.0f),
+                new Vector3(R_Tile.transform.position.x, R_Tile.transform.position.y, R_Tile.transform.position.z + positionOffset),
                 R_Tile.transform.rotation);
             TC_Tile = RandomRocks(
-                new Vector3(C_Tile.transform.position.x, C_Tile.transform.position.y, C_Tile.transform.position.z + 250.0f),
+                new Vector3(C_Tile.transform.position.x, C_Tile.transform.position.y, C_Tile.transform.position.z + positionOffset),
                 C_Tile.transform.rotation);
             TL_Tile = RandomRocks(
-                new Vector3(L_Tile.transform.position.x, L_Tile.transform.position.y, L_Tile.transform.position.z + 250.0f),
+                new Vector3(L_Tile.transform.position.x, L_Tile.transform.position.y, L_Tile.transform.position.z + positionOffset),
                 L_Tile.transform.rotation);
         }
     }
@@ -115,18 +105,16 @@ public class ManageTiles : MonoBehaviour
             L_Tile = BL_Tile;
 
             // create new tiles
-            BR_Tile = (GameObject)Instantiate(
-                BaseTile,
-                new Vector3(R_Tile.transform.position.x, R_Tile.transform.position.y, R_Tile.transform.position.z - 250.0f),
+            BR_Tile = RandomRocks(
+                new Vector3(R_Tile.transform.position.x, R_Tile.transform.position.y, R_Tile.transform.position.z - positionOffset),
                 R_Tile.transform.rotation);
-            BC_Tile = (GameObject)Instantiate(
-                BaseTile,
-                new Vector3(C_Tile.transform.position.x, C_Tile.transform.position.y, C_Tile.transform.position.z - 250.0f),
+            BC_Tile = RandomRocks(
+                new Vector3(C_Tile.transform.position.x, C_Tile.transform.position.y, C_Tile.transform.position.z - positionOffset),
                 C_Tile.transform.rotation);
-            BL_Tile = (GameObject)Instantiate(
-                BaseTile,
-                new Vector3(L_Tile.transform.position.x, L_Tile.transform.position.y, L_Tile.transform.position.z - 250.0f),
+            BL_Tile = RandomRocks(
+                new Vector3(L_Tile.transform.position.x, L_Tile.transform.position.y, L_Tile.transform.position.z - positionOffset),
                 L_Tile.transform.rotation);
+
         }
     }
     public void UpdateWest()
@@ -152,15 +140,15 @@ public class ManageTiles : MonoBehaviour
             // create new tiles
             TL_Tile = (GameObject)Instantiate(
                 BaseTile,
-                new Vector3(TC_Tile.transform.position.x - 250.0f, TC_Tile.transform.position.y, TC_Tile.transform.position.z),
+                new Vector3(TC_Tile.transform.position.x - positionOffset, TC_Tile.transform.position.y, TC_Tile.transform.position.z),
                 TC_Tile.transform.rotation);
             L_Tile = (GameObject)Instantiate(
                 BaseTile,
-                new Vector3(C_Tile.transform.position.x - 250.0f, C_Tile.transform.position.y, C_Tile.transform.position.z),
+                new Vector3(C_Tile.transform.position.x - positionOffset, C_Tile.transform.position.y, C_Tile.transform.position.z),
                 C_Tile.transform.rotation);
             BL_Tile = (GameObject)Instantiate(
                 BaseTile,
-                new Vector3(BC_Tile.transform.position.x - 250.0f, BC_Tile.transform.position.y, BC_Tile.transform.position.z),
+                new Vector3(BC_Tile.transform.position.x - positionOffset, BC_Tile.transform.position.y, BC_Tile.transform.position.z),
                 BC_Tile.transform.rotation);
         }
     }
@@ -187,39 +175,39 @@ public class ManageTiles : MonoBehaviour
             // create new tiles
             TR_Tile = (GameObject)Instantiate(
                 BaseTile,
-                new Vector3(TC_Tile.transform.position.x + 250.0f, TC_Tile.transform.position.y, TC_Tile.transform.position.z),
+                new Vector3(TC_Tile.transform.position.x + positionOffset, TC_Tile.transform.position.y, TC_Tile.transform.position.z),
                 TC_Tile.transform.rotation);
             R_Tile = (GameObject)Instantiate(
                 BaseTile,
-                new Vector3(C_Tile.transform.position.x + 250.0f, C_Tile.transform.position.y, C_Tile.transform.position.z),
+                new Vector3(C_Tile.transform.position.x + positionOffset, C_Tile.transform.position.y, C_Tile.transform.position.z),
                 C_Tile.transform.rotation);
             BR_Tile = (GameObject)Instantiate(
                 BaseTile,
-                new Vector3(BC_Tile.transform.position.x + 250.0f, BC_Tile.transform.position.y, BC_Tile.transform.position.z),
+                new Vector3(BC_Tile.transform.position.x + positionOffset, BC_Tile.transform.position.y, BC_Tile.transform.position.z),
                 BC_Tile.transform.rotation);
         }
     }
 
     Vector3 RandomXZPosition(Vector3 pos)
     {
-        return new Vector3(pos.x + Random.Range(0, 200), pos.y + 2.0f, pos.z + Random.Range(0, 200));
+        return new Vector3(pos.x + Random.Range(0, 25), pos.y + 2.0f, pos.z + Random.Range(0, 25));
     }
 
     GameObject RandomRocks(Vector3 pos, Quaternion rot)
     {
         GameObject newTile = (GameObject)Instantiate(BaseTile, pos, rot);
 
-        int numRocks = Random.Range(1, 21);
-
+        int numRocks = Random.Range(1, 11);
+        
         for (int i = 0; i < numRocks; ++i)
         {
-            Transform t = ((GameObject)Instantiate(rock, pos, rot)).transform;
-
+            Transform t = ((GameObject)Instantiate(rock, RandomXZPosition(pos), rot)).transform;
+        
             t.parent = newTile.transform;
-
-            t.transform.position = RandomXZPosition(pos);
+        
+           // t.transform.position = RandomXZPosition(t.transform.position);
         }
 
-            return newTile;
+        return newTile;
     }
 }
