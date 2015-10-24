@@ -16,6 +16,7 @@ public class ManageTiles : MonoBehaviour
     public GameObject BL_Tile;
 
     public GameObject BaseTile;
+    public GameObject rock;
 
     // used to flag if player is in a trigger or not
     bool EastWestTrigger = false;
@@ -69,16 +70,26 @@ public class ManageTiles : MonoBehaviour
             L_Tile = TL_Tile;
 
             // create new tiles
-            TR_Tile = (GameObject)Instantiate(
-                BaseTile,
+            //TR_Tile = (GameObject)Instantiate(
+            //    BaseTile,
+            //    new Vector3(R_Tile.transform.position.x, R_Tile.transform.position.y, R_Tile.transform.position.z + 250.0f),
+            //    R_Tile.transform.rotation);
+            //TC_Tile = (GameObject)Instantiate(
+            //    BaseTile,
+            //    new Vector3(C_Tile.transform.position.x, C_Tile.transform.position.y, C_Tile.transform.position.z + 250.0f),
+            //    C_Tile.transform.rotation);
+            //TL_Tile = (GameObject)Instantiate(
+            //    BaseTile,
+            //    new Vector3(L_Tile.transform.position.x, L_Tile.transform.position.y, L_Tile.transform.position.z + 250.0f),
+            //    L_Tile.transform.rotation);
+
+            TR_Tile = RandomRocks(
                 new Vector3(R_Tile.transform.position.x, R_Tile.transform.position.y, R_Tile.transform.position.z + 250.0f),
                 R_Tile.transform.rotation);
-            TC_Tile = (GameObject)Instantiate(
-                BaseTile,
+            TC_Tile = RandomRocks(
                 new Vector3(C_Tile.transform.position.x, C_Tile.transform.position.y, C_Tile.transform.position.z + 250.0f),
                 C_Tile.transform.rotation);
-            TL_Tile = (GameObject)Instantiate(
-                BaseTile,
+            TL_Tile = RandomRocks(
                 new Vector3(L_Tile.transform.position.x, L_Tile.transform.position.y, L_Tile.transform.position.z + 250.0f),
                 L_Tile.transform.rotation);
         }
@@ -187,6 +198,28 @@ public class ManageTiles : MonoBehaviour
                 new Vector3(BC_Tile.transform.position.x + 250.0f, BC_Tile.transform.position.y, BC_Tile.transform.position.z),
                 BC_Tile.transform.rotation);
         }
+    }
 
+    Vector3 RandomXZPosition(Vector3 pos)
+    {
+        return new Vector3(pos.x + Random.Range(0, 200), pos.y + 2.0f, pos.z + Random.Range(0, 200));
+    }
+
+    GameObject RandomRocks(Vector3 pos, Quaternion rot)
+    {
+        GameObject newTile = (GameObject)Instantiate(BaseTile, pos, rot);
+
+        int numRocks = Random.Range(1, 21);
+
+        for (int i = 0; i < numRocks; ++i)
+        {
+            Transform t = ((GameObject)Instantiate(rock, pos, rot)).transform;
+
+            t.parent = newTile.transform;
+
+            t.transform.position = RandomXZPosition(pos);
+        }
+
+            return newTile;
     }
 }
