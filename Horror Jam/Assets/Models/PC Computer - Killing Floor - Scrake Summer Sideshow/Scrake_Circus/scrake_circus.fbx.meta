@@ -1,0 +1,158 @@
+fileFormatVersion: 2
+guid: e31cffb42c057ee4281946739d1d2456
+timeCreated: 1445656031
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: CHR_Head
+    100002: CHR_HeadJAW
+    100004: CHR_LAnkle
+    100006: CHR_LArmCollar
+    100008: CHR_LArmDigit11
+    100010: CHR_LArmDigit12
+    100012: CHR_LArmDigit13
+    100014: CHR_LArmDigit21
+    100016: CHR_LArmDigit22
+    100018: CHR_LArmDigit23
+    100020: CHR_LArmDigit31
+    100022: CHR_LArmDigit32
+    100024: CHR_LArmDigit33
+    100026: CHR_LArmDigit41
+    100028: CHR_LArmDigit42
+    100030: CHR_LArmDigit43
+    100032: CHR_LArmDigit51
+    100034: CHR_LArmDigit52
+    100036: CHR_LArmDigit53
+    100038: CHR_LArmForeArm
+    100040: CHR_LArmPalm
+    100042: CHR_LArmUpper
+    100044: CHR_LCalf
+    100046: CHR_LThigh
+    100048: CHR_LToe1
+    100050: CHR_Neck
+    100052: CHR_Pelvis
+    100054: CHR_RAnkle
+    100056: CHR_RArmCollar
+    100058: CHR_RArmForeArm
+    100060: CHR_RArmPalm
+    100062: CHR_RArmUpper
+    100064: CHR_RCalf
+    100066: CHR_Ribcage
+    100068: CHR_RThigh
+    100070: CHR_RToe1
+    100072: CHR_Spine1
+    100074: CHR_Spine2
+    100076: CHR_Spine3
+    100078: Collision_Attach
+    100080: scrake_CIRCUS
+    100082: //RootNode
+    400000: CHR_Head
+    400002: CHR_HeadJAW
+    400004: CHR_LAnkle
+    400006: CHR_LArmCollar
+    400008: CHR_LArmDigit11
+    400010: CHR_LArmDigit12
+    400012: CHR_LArmDigit13
+    400014: CHR_LArmDigit21
+    400016: CHR_LArmDigit22
+    400018: CHR_LArmDigit23
+    400020: CHR_LArmDigit31
+    400022: CHR_LArmDigit32
+    400024: CHR_LArmDigit33
+    400026: CHR_LArmDigit41
+    400028: CHR_LArmDigit42
+    400030: CHR_LArmDigit43
+    400032: CHR_LArmDigit51
+    400034: CHR_LArmDigit52
+    400036: CHR_LArmDigit53
+    400038: CHR_LArmForeArm
+    400040: CHR_LArmPalm
+    400042: CHR_LArmUpper
+    400044: CHR_LCalf
+    400046: CHR_LThigh
+    400048: CHR_LToe1
+    400050: CHR_Neck
+    400052: CHR_Pelvis
+    400054: CHR_RAnkle
+    400056: CHR_RArmCollar
+    400058: CHR_RArmForeArm
+    400060: CHR_RArmPalm
+    400062: CHR_RArmUpper
+    400064: CHR_RCalf
+    400066: CHR_Ribcage
+    400068: CHR_RThigh
+    400070: CHR_RToe1
+    400072: CHR_Spine1
+    400074: CHR_Spine2
+    400076: CHR_Spine3
+    400078: Collision_Attach
+    400080: scrake_CIRCUS
+    400082: //RootNode
+    4300000: scrake_CIRCUS
+    9500000: //RootNode
+    13700000: scrake_CIRCUS
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
