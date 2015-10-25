@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 6f91822edfa862e4085cdfe9c70d324f
-timeCreated: 1445656030
-licenseType: Free
+timeCreated: 1445791996
+licenseType: Pro
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
@@ -12,6 +12,7 @@ ModelImporter:
     2300000: scrake_CIRCUS
     3300000: scrake_CIRCUS
     4300000: scrake_CIRCUS
+    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -25,7 +26,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
@@ -59,7 +60,17 @@ ModelImporter:
   copyAvatar: 0
   humanDescription:
     human: []
-    skeleton: []
+    skeleton:
+    - name: scrake_circus(Clone)
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: scrake_CIRCUS
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
     armTwist: .5
     foreArmTwist: .5
     upperLegTwist: .5
@@ -70,7 +81,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 3
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
