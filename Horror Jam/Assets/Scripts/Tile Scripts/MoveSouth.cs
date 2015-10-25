@@ -13,12 +13,8 @@ public class MoveSouth : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        player.GetComponent<ManageTiles>().UpdateSouth();
+        if (other.gameObject == player)
+            player.GetComponent<ManageTiles>().UpdateSouth(transform.parent.transform.position);
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        if (player.GetComponent<ManageTiles>().NSTrigger)
-            player.GetComponent<ManageTiles>().NSTrigger = false;
-    }
 }

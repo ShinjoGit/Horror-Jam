@@ -7,9 +7,9 @@ public class GameManager : MonoBehaviour
     public static GameObject manager;
 
     // keep track of game time
-    double timer;
+    //double timer = 0;
     // keep track of score
-    ulong score;
+    //ulong score = 0;
 
     void Awake()
     {

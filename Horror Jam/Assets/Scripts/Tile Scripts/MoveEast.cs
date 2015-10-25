@@ -13,12 +13,8 @@ public class MoveEast : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        player.GetComponent<ManageTiles>().UpdateEast();
+        if (other.gameObject == player)
+            player.GetComponent<ManageTiles>().UpdateEast(transform.parent.transform.position);
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        if (player.GetComponent<ManageTiles>().EWTrigger)
-            player.GetComponent<ManageTiles>().EWTrigger = false;
-    }
 }

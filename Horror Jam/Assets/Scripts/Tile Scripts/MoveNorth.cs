@@ -13,13 +13,11 @@ public class MoveNorth : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        player.GetComponent<ManageTiles>().UpdateNorth();
+        //player.GetComponent<ManageTiles>().UpdateNorth();
+        if (other.gameObject == player)
+            player.GetComponent<ManageTiles>().UpdateNorth(transform.parent.transform.position);
+
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        if (player.GetComponent<ManageTiles>().NSTrigger)
-            player.GetComponent<ManageTiles>().NSTrigger = false;
-    }
 
 }
