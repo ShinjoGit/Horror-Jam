@@ -13,12 +13,8 @@ public class MoveWest : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        player.GetComponent<ManageTiles>().UpdateWest();
+        if (other.gameObject == player)
+            player.GetComponent<ManageTiles>().UpdateWest(transform.parent.transform.position);
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        if (player.GetComponent<ManageTiles>().EWTrigger)
-            player.GetComponent<ManageTiles>().EWTrigger = false;
-    }
 }

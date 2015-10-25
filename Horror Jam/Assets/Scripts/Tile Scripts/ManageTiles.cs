@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ManageTiles : MonoBehaviour
 {
@@ -16,14 +17,41 @@ public class ManageTiles : MonoBehaviour
     public GameObject BL_Tile;
 
     // update this when changing scale of tiles
-    public float positionOffset = 250.0f;
+    public float positionOffset = 500.0f;
 
     public GameObject BaseTile;
     public GameObject rock;
-
+    public GameObject zombie;
+    GameObject player;
     // used to flag if player is in a trigger or not
     bool EastWestTrigger = false;
     bool NorthSouthTrigger = false;
+
+    public Dictionary<string, Vector3> posOffsets = new Dictionary<string, Vector3>() 
+    { 
+        {"TL", new Vector3(    -500.0f,    0.0f,   +500.0f   )},
+        {"TC", new Vector3(    0.0f,       0.0f,   +500.0f   )},
+        {"TR", new Vector3(    +500.0f,    0.0f,   +500.0f   )},
+        {"L",  new Vector3(    -500.0f,    0.0f,   0.0f      )},
+        {"C",  new Vector3(    0.0f,       0.0f,   0.0f      )},
+        {"R",  new Vector3(    +500.0f,    0.0f,   0.0f      )},
+        {"BL", new Vector3(    -500.0f,    0.0f,   -500.0f   )},
+        {"BC", new Vector3(    0.0f,       0.0f,   -500.0f   )},
+        {"BR", new Vector3(    +500.0f,    0.0f,   -500.0f   )}
+    }; 
+
+    public Vector3[] positionOffsets = 
+    {
+        new Vector3(    -500.0f,    0.0f,   +500.0f   ),
+        new Vector3(    0.0f,       0.0f,   +500.0f   ),
+        new Vector3(    +500.0f,    0.0f,   +500.0f   ),
+        new Vector3(    -500.0f,    0.0f,   0.0f      ),
+        new Vector3(    0.0f,       0.0f,   0.0f      ),
+        new Vector3(    -500.0f,    0.0f,   0.0f      ),
+        new Vector3(    +500.0f,    0.0f,   -500.0f   ),
+        new Vector3(    0.0f,       0.0f,   -500.0f   ),
+        new Vector3(    +500.0f,    0.0f,   -500.0f   )
+    };
 
     public bool NSTrigger
     {
@@ -50,141 +78,223 @@ public class ManageTiles : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        player = GameObject.FindGameObjectWithTag("Player");
+        SpawnZomies();
     }
 
-    public void UpdateNorth()
+    GameObject[] CenterPositions(GameObject[] list, Vector3 pos)
+    {
+        for (int i = 0; i < list.Length; i++)
+        {
+            list[i].transform.position = pos;
+        }
+        return list;
+    }
+
+    // hack the tiles to beheave
+    void SetTilesInactive()
+    {
+        TR_Tile.SetActive(false);
+        TC_Tile.SetActive(false);
+        TL_Tile.SetActive(false);
+
+        R_Tile.SetActive(false);
+        C_Tile.SetActive(false);
+        L_Tile.SetActive(false);
+
+        BR_Tile.SetActive(false);
+        BC_Tile.SetActive(false);
+        BL_Tile.SetActive(false);
+    }
+
+    // hack the tiles to behave
+    void SetTilesActive()
+    {
+        TR_Tile.SetActive(true);
+        TC_Tile.SetActive(true);
+        TL_Tile.SetActive(true);
+
+        R_Tile.SetActive(true);
+        C_Tile.SetActive(true);
+        L_Tile.SetActive(true);
+
+        BR_Tile.SetActive(true);
+        BC_Tile.SetActive(true);
+        BL_Tile.SetActive(true);
+    }
+
+    public void UpdateNorth(Vector3 pos)
     {
         // only update if we aren't already changing north/south
         if (!NorthSouthTrigger)
         {
             NorthSouthTrigger = true;
+            SetTilesInactive();
 
-            // destroy out of sight tiles
-            Destroy(BR_Tile);
-            Destroy(BC_Tile);
-            Destroy(BL_Tile);
+            // maintain center and old tile
+            BC_Tile.transform.position = C_Tile.transform.position;
+            C_Tile.transform.position = TC_Tile.transform.position;
+            
+            Vector3 newCenter = new Vector3(pos.x, pos.y, pos.z + 500.0f);
+            
+            // apply offsets
+            TR_Tile.transform.position = newCenter + posOffsets["TR"];
+            TC_Tile.transform.position = newCenter + posOffsets["TC"];
+            TL_Tile.transform.position = newCenter + posOffsets["TL"];
+            
+            R_Tile.transform.position = newCenter + posOffsets["R"];
+            L_Tile.transform.position = newCenter + posOffsets["L"];
+            
+            BR_Tile.transform.position = newCenter + posOffsets["BR"];
+            BL_Tile.transform.position = newCenter + posOffsets["BL"];
 
-            // update tiles to new positions
-            BR_Tile = R_Tile;
-            BC_Tile = C_Tile;
-            BL_Tile = L_Tile;
-            R_Tile = TR_Tile;
-            C_Tile = TC_Tile;
-            L_Tile = TL_Tile;
+            SpawnZomies();
 
-            // create new tiles
-            TR_Tile = RandomRocks(
-                new Vector3(R_Tile.transform.position.x, R_Tile.transform.position.y, R_Tile.transform.position.z + positionOffset),
-                R_Tile.transform.rotation);
-            TC_Tile = RandomRocks(
-                new Vector3(C_Tile.transform.position.x, C_Tile.transform.position.y, C_Tile.transform.position.z + positionOffset),
-                C_Tile.transform.rotation);
-            TL_Tile = RandomRocks(
-                new Vector3(L_Tile.transform.position.x, L_Tile.transform.position.y, L_Tile.transform.position.z + positionOffset),
-                L_Tile.transform.rotation);
+            SetTilesActive();
         }
     }
-    public void UpdateSouth()
+    public void UpdateSouth(Vector3 pos)
     {
         // only update if we aren't already changing north/south
         if (!NorthSouthTrigger)
         {
             NorthSouthTrigger = true;
+            SetTilesInactive();
 
-            // destroy out of sight tiles
-            Destroy(TR_Tile);
-            Destroy(TC_Tile);
-            Destroy(TL_Tile);
+            // maintain center and old tile
+            TC_Tile.transform.position = C_Tile.transform.position;
+            C_Tile.transform.position = BC_Tile.transform.position;
 
-            // update tiles to new positions
-            TR_Tile = R_Tile;
-            TC_Tile = C_Tile;
-            TL_Tile = L_Tile;
-            R_Tile = BR_Tile;
-            C_Tile = BC_Tile;
-            L_Tile = BL_Tile;
+            Vector3 newCenter = new Vector3(pos.x, pos.y, pos.z - 500.0f);
 
-            // create new tiles
-            BR_Tile = RandomRocks(
-                new Vector3(R_Tile.transform.position.x, R_Tile.transform.position.y, R_Tile.transform.position.z - positionOffset),
-                R_Tile.transform.rotation);
-            BC_Tile = RandomRocks(
-                new Vector3(C_Tile.transform.position.x, C_Tile.transform.position.y, C_Tile.transform.position.z - positionOffset),
-                C_Tile.transform.rotation);
-            BL_Tile = RandomRocks(
-                new Vector3(L_Tile.transform.position.x, L_Tile.transform.position.y, L_Tile.transform.position.z - positionOffset),
-                L_Tile.transform.rotation);
+            // apply offsets
+            TR_Tile.transform.position = newCenter + posOffsets["TR"];
+            TL_Tile.transform.position = newCenter + posOffsets["TL"];
 
+            R_Tile.transform.position = newCenter + posOffsets["R"];
+            L_Tile.transform.position = newCenter + posOffsets["L"];
+
+            BR_Tile.transform.position = newCenter + posOffsets["BR"];
+            BC_Tile.transform.position = newCenter + posOffsets["BC"];
+            BL_Tile.transform.position = newCenter + posOffsets["BL"];
+            SpawnZomies();
+
+            SetTilesActive();
         }
     }
-    public void UpdateWest()
+    public void UpdateWest(Vector3 pos)
     {
         // only update if we aren't already changing east/west
         if (!EastWestTrigger)
         {
             EastWestTrigger = true;
+            SetTilesInactive();
 
-            // destroy out of sight tiles
-            Destroy(TR_Tile);
-            Destroy(R_Tile);
-            Destroy(BR_Tile);
+            // maintain center and old tile
+            R_Tile.transform.position = C_Tile.transform.position;
+            C_Tile.transform.position = L_Tile.transform.position;
 
-            // update tiles to new positions
-            TR_Tile = TC_Tile;
-            R_Tile = C_Tile;
-            BR_Tile = BC_Tile;
-            TC_Tile = TL_Tile;
-            C_Tile = L_Tile;
-            BC_Tile = BL_Tile;
+            Vector3 newCenter = new Vector3(pos.x - 500.0f, pos.y, pos.z);
 
-            // create new tiles
-            TL_Tile = RandomRocks(
-                new Vector3(TC_Tile.transform.position.x - positionOffset, TC_Tile.transform.position.y, TC_Tile.transform.position.z),
-                TC_Tile.transform.rotation);
-            L_Tile = RandomRocks(
-                new Vector3(C_Tile.transform.position.x - positionOffset, C_Tile.transform.position.y, C_Tile.transform.position.z),
-                C_Tile.transform.rotation);
-            BL_Tile = RandomRocks(
-                new Vector3(BC_Tile.transform.position.x - positionOffset, BC_Tile.transform.position.y, BC_Tile.transform.position.z),
-                BC_Tile.transform.rotation);
+            // apply offsets
+            TR_Tile.transform.position = newCenter + posOffsets["TR"];
+            TC_Tile.transform.position = newCenter + posOffsets["TC"];
+            TL_Tile.transform.position = newCenter + posOffsets["TL"];
+
+            L_Tile.transform.position = newCenter + posOffsets["L"];
+
+            BR_Tile.transform.position = newCenter + posOffsets["BR"];
+            BC_Tile.transform.position = newCenter + posOffsets["BC"];
+            BL_Tile.transform.position = newCenter + posOffsets["BL"];
+
+            SpawnZomies();
+
+            SetTilesActive();
+
+            //// destroy out of sight tiles
+            //Destroy(TR_Tile);
+            //Destroy(R_Tile);
+            //Destroy(BR_Tile);
+            //
+            //// update tiles to new positions
+            //TR_Tile = TC_Tile;
+            //R_Tile = C_Tile;
+            //BR_Tile = BC_Tile;
+            //TC_Tile = TL_Tile;
+            //C_Tile = L_Tile;
+            //BC_Tile = BL_Tile;
+            //
+            //// create new tiles
+            //TL_Tile = RandomRocks(
+            //    new Vector3(TC_Tile.transform.position.x - positionOffset, TC_Tile.transform.position.y, TC_Tile.transform.position.z),
+            //    TC_Tile.transform.rotation);
+            //L_Tile = RandomRocks(
+            //    new Vector3(C_Tile.transform.position.x - positionOffset, C_Tile.transform.position.y, C_Tile.transform.position.z),
+            //    C_Tile.transform.rotation);
+            //BL_Tile = RandomRocks(
+            //    new Vector3(BC_Tile.transform.position.x - positionOffset, BC_Tile.transform.position.y, BC_Tile.transform.position.z),
+            //    BC_Tile.transform.rotation);
         }
     }
-    public void UpdateEast()
+    public void UpdateEast(Vector3 pos)
     {
         // only update if we aren't already changing east/west
         if (!EastWestTrigger)
         {
             EastWestTrigger = true;
+            SetTilesInactive();
 
-            // destroy out of sight tiles
-            Destroy(TL_Tile);
-            Destroy(L_Tile);
-            Destroy(BL_Tile);
+            // maintain center and old tile
+            L_Tile.transform.position = C_Tile.transform.position;
+            C_Tile.transform.position = R_Tile.transform.position;
 
-            // update tiles to new positions
-            TL_Tile = TC_Tile;
-            L_Tile = C_Tile;
-            BL_Tile = BC_Tile;
-            TC_Tile = TR_Tile;
-            C_Tile = R_Tile;
-            BC_Tile = BR_Tile;
+            Vector3 newCenter = new Vector3(pos.x + 500.0f, pos.y, pos.z);
 
-            // create new tiles
-            TR_Tile = RandomRocks(
-                new Vector3(TC_Tile.transform.position.x + positionOffset, TC_Tile.transform.position.y, TC_Tile.transform.position.z),
-                TC_Tile.transform.rotation);
-            R_Tile = RandomRocks(
-                new Vector3(C_Tile.transform.position.x + positionOffset, C_Tile.transform.position.y, C_Tile.transform.position.z),
-                C_Tile.transform.rotation);
-            BR_Tile = RandomRocks(
-                new Vector3(BC_Tile.transform.position.x + positionOffset, BC_Tile.transform.position.y, BC_Tile.transform.position.z),
-                BC_Tile.transform.rotation);
+            // apply offsets
+            TR_Tile.transform.position = newCenter + posOffsets["TR"];
+            TC_Tile.transform.position = newCenter + posOffsets["TC"];
+            TL_Tile.transform.position = newCenter + posOffsets["TL"];
+
+            R_Tile.transform.position = newCenter + posOffsets["R"];
+
+            BR_Tile.transform.position = newCenter + posOffsets["BR"];
+            BC_Tile.transform.position = newCenter + posOffsets["BC"];
+            BL_Tile.transform.position = newCenter + posOffsets["BL"];
+
+            SpawnZomies();
+
+            SetTilesActive();
+
+            //// destroy out of sight tiles
+            //Destroy(TL_Tile);
+            //Destroy(L_Tile);
+            //Destroy(BL_Tile);
+            //
+            //// update tiles to new positions
+            //TL_Tile = TC_Tile;
+            //L_Tile = C_Tile;
+            //BL_Tile = BC_Tile;
+            //TC_Tile = TR_Tile;
+            //C_Tile = R_Tile;
+            //BC_Tile = BR_Tile;
+            //
+            //// create new tiles
+            //TR_Tile = RandomRocks(
+            //    new Vector3(TC_Tile.transform.position.x + positionOffset, TC_Tile.transform.position.y, TC_Tile.transform.position.z),
+            //    TC_Tile.transform.rotation);
+            //R_Tile = RandomRocks(
+            //    new Vector3(C_Tile.transform.position.x + positionOffset, C_Tile.transform.position.y, C_Tile.transform.position.z),
+            //    C_Tile.transform.rotation);
+            //BR_Tile = RandomRocks(
+            //    new Vector3(BC_Tile.transform.position.x + positionOffset, BC_Tile.transform.position.y, BC_Tile.transform.position.z),
+            //    BC_Tile.transform.rotation);
         }
     }
 
-    Vector3 RandomXZPosition(Vector3 pos)
+    Vector3 RandomXZPosition(Vector3 pos, float min, float max)
     {
-        return new Vector3(pos.x + Random.Range(0, 250), pos.y + 2.0f, pos.z + Random.Range(0, 250));
+        return new Vector3(pos.x + Random.Range(min, max), pos.y + 2.0f, pos.z + Random.Range(min, max));
     }
 
     GameObject RandomRocks(Vector3 pos, Quaternion rot)
@@ -195,7 +305,7 @@ public class ManageTiles : MonoBehaviour
         
         for (int i = 0; i < numRocks; ++i)
         {
-            Transform t = ((GameObject)Instantiate(rock, RandomXZPosition(pos), rot)).transform;
+            Transform t = ((GameObject)Instantiate(rock, RandomXZPosition(pos, 0, 250), rot)).transform;
         
             t.parent = newTile.transform;
         
@@ -204,4 +314,16 @@ public class ManageTiles : MonoBehaviour
 
         return newTile;
     }
+
+    void SpawnZomies()
+    {
+        int numZombies = Random.Range(100, 200);
+        for (int i = 0; i < numZombies; i++)
+        {
+            Vector3 pos = RandomXZPosition(player.transform.position, -250, 250);
+            pos.y = 0.1f;
+            Instantiate(zombie, pos, Quaternion.identity);
+        }
+    }
+
 }
