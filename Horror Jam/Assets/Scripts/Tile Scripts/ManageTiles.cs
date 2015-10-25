@@ -21,7 +21,8 @@ public class ManageTiles : MonoBehaviour
 
     public GameObject BaseTile;
     public GameObject rock;
-
+    public GameObject zombie;
+    GameObject player;
     // used to flag if player is in a trigger or not
     bool EastWestTrigger = false;
     bool NorthSouthTrigger = false;
@@ -77,6 +78,9 @@ public class ManageTiles : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        player = GameObject.FindGameObjectWithTag("Player");
+        SpawnZomies();
     }
 
     GameObject[] CenterPositions(GameObject[] list, Vector3 pos)
@@ -144,6 +148,8 @@ public class ManageTiles : MonoBehaviour
             
             BR_Tile.transform.position = newCenter + posOffsets["BR"];
             BL_Tile.transform.position = newCenter + posOffsets["BL"];
+
+            SpawnZomies();
 
             SetTilesActive();
         }
@@ -283,9 +289,9 @@ public class ManageTiles : MonoBehaviour
         }
     }
 
-    Vector3 RandomXZPosition(Vector3 pos)
+    Vector3 RandomXZPosition(Vector3 pos, float min, float max)
     {
-        return new Vector3(pos.x + Random.Range(0, 250), pos.y + 2.0f, pos.z + Random.Range(0, 250));
+        return new Vector3(pos.x + Random.Range(min, max), pos.y + 2.0f, pos.z + Random.Range(min, max));
     }
 
     GameObject RandomRocks(Vector3 pos, Quaternion rot)
@@ -296,7 +302,7 @@ public class ManageTiles : MonoBehaviour
         
         for (int i = 0; i < numRocks; ++i)
         {
-            Transform t = ((GameObject)Instantiate(rock, RandomXZPosition(pos), rot)).transform;
+            Transform t = ((GameObject)Instantiate(rock, RandomXZPosition(pos, 0, 250), rot)).transform;
         
             t.parent = newTile.transform;
         
@@ -305,4 +311,16 @@ public class ManageTiles : MonoBehaviour
 
         return newTile;
     }
+
+    void SpawnZomies()
+    {
+        int numZombies = Random.Range(100, 200);
+        for (int i = 0; i < numZombies; i++)
+        {
+            Vector3 pos = RandomXZPosition(player.transform.position, 0, 500);
+            pos.y = 0.1f;
+            Instantiate(zombie, pos, Quaternion.identity);
+        }
+    }
+
 }

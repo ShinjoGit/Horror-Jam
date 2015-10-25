@@ -16,7 +16,7 @@ public class Zombie_Behavior : MonoBehaviour {
 	void Start () 
     {
         DistanceToTarget = 100.0f;
-        WakeUpDistance = 11.0f;
+        //WakeUpDistance = 11.0f;
 	}
 	
 	// Update is called once per frame
