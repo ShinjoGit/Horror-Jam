@@ -4,26 +4,45 @@ using System.Collections;
 public class SlenderScript : MonoBehaviour
 {
 
-    public GameObject SlenderObj;
-    public Collider SlenderCollider;
-    private Camera cam;
-    private Plane[] planes;
+    public bool visible;
+    public float disappearTimer;
+    private Vector3 TargetPosition;
+
     void Start()
     {
-        cam = Camera.main;
-        planes = GeometryUtility.CalculateFrustumPlanes(cam);
-        SlenderCollider = gameObject.GetComponent<CapsuleCollider>();
-        SlenderObj = this.gameObject;
+
     }
     void Update()
     {
-        if (GeometryUtility.TestPlanesAABB(planes, SlenderCollider.bounds))
+
+        TargetPosition = GameObject.Find("Player").transform.position;
+
+        TargetPosition.y = 0;
+        transform.LookAt(TargetPosition);
+
+
+        Debug.Log(GetComponent<MeshRenderer>());
+        if (GetComponent<MeshRenderer>().isVisible == true)
         {
-            Debug.Log(SlenderObj.name + " has been detected!");
+            visible = true;
+
+            disappearTimer -= Time.deltaTime;
+            if (disappearTimer <= 0.0f)
+            {
+                Vector3 rand = new Vector3(Random.value, 10, Random.value);
+                transform.position += rand;
+            }
         }
         else
         {
-            Debug.Log("Nothing has been detected");
+            visible = false;
         }
+
     }
+
+
+
+
+
+
 }
