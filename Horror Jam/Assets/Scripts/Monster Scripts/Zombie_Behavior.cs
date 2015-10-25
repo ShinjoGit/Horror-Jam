@@ -21,15 +21,12 @@ public class Zombie_Behavior : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
-<<<<<<< HEAD
         DistanceToTarget = 100.0f;
         WakeUpDistance = 11.0f;
-=======
         //DistanceToTarget = 100.0f;
         //WakeUpDistance = 11.0f;
         m_AudioSource = GetComponent<AudioSource>();
         timer = 0;
->>>>>>> 60d6cd1e39d605c1e63b961adb04b61bf26f2e77
 	}
 	
 	// Update is called once per frame
