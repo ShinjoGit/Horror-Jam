@@ -12,11 +12,15 @@ public class Zombie_Behavior : MonoBehaviour {
     public float DistanceToTarget;
     public float WakeUpDistance = 11.0f;
     public float AttackProxomity = 1.75f;
+    private AudioSource m_AudioSource;
+    public AudioClip m_WalkSound;           
+    public AudioClip m_AttackSound;          
 	// Use this for initialization
 	void Start () 
     {
         DistanceToTarget = 100.0f;
         WakeUpDistance = 11.0f;
+        m_AudioSource = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -43,12 +47,29 @@ public class Zombie_Behavior : MonoBehaviour {
             transform.LookAt(TargetPosition);
             //ToTarget.Normalize();
             if (DistanceToTarget > AttackProxomity)
-            Walk(ToTarget);
+            {
+                m_AudioSource.clip = m_WalkSound;
+                if (!m_AudioSource.isPlaying)
+                {
+                  m_AudioSource.PlayOneShot(m_AudioSource.clip);
+                }
+                Walk(ToTarget);
+            }
 
             // If the Zombie is close enough to the player, attack!
             if (DistanceToTarget < AttackProxomity)
             {
+                m_AudioSource.clip = m_AttackSound;
+                if (!m_AudioSource.isPlaying)
+                {
+                  m_AudioSource.PlayOneShot(m_AudioSource.clip);
+                }
                 Attack();
+            }
+
+            if (DistanceToTarget > 15)
+            {
+                m_AudioSource.Stop();
             }
 
         }
