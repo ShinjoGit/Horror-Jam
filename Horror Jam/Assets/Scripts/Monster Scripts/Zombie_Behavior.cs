@@ -14,13 +14,17 @@ public class Zombie_Behavior : MonoBehaviour {
     public float AttackProxomity = 1.75f;
     private AudioSource m_AudioSource;
     public AudioClip m_WalkSound;           
-    public AudioClip m_AttackSound;          
+    public AudioClip m_AttackSound;
+
+    float timer;
+      
 	// Use this for initialization
 	void Start () 
     {
-        DistanceToTarget = 100.0f;
+        //DistanceToTarget = 100.0f;
         //WakeUpDistance = 11.0f;
         m_AudioSource = GetComponent<AudioSource>();
+        timer = 0;
 	}
 	
 	// Update is called once per frame
@@ -72,6 +76,13 @@ public class Zombie_Behavior : MonoBehaviour {
                 m_AudioSource.Stop();
             }
 
+        }
+
+        timer += Time.deltaTime;
+
+        if (timer >= 40.0f)
+        {
+            Destroy(gameObject);
         }
 	}
 

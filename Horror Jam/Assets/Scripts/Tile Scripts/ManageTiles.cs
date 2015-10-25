@@ -178,6 +178,7 @@ public class ManageTiles : MonoBehaviour
             BR_Tile.transform.position = newCenter + posOffsets["BR"];
             BC_Tile.transform.position = newCenter + posOffsets["BC"];
             BL_Tile.transform.position = newCenter + posOffsets["BL"];
+            SpawnZomies();
 
             SetTilesActive();
         }
@@ -207,6 +208,7 @@ public class ManageTiles : MonoBehaviour
             BC_Tile.transform.position = newCenter + posOffsets["BC"];
             BL_Tile.transform.position = newCenter + posOffsets["BL"];
 
+            SpawnZomies();
 
             SetTilesActive();
 
@@ -260,6 +262,7 @@ public class ManageTiles : MonoBehaviour
             BC_Tile.transform.position = newCenter + posOffsets["BC"];
             BL_Tile.transform.position = newCenter + posOffsets["BL"];
 
+            SpawnZomies();
 
             SetTilesActive();
 
@@ -317,7 +320,7 @@ public class ManageTiles : MonoBehaviour
         int numZombies = Random.Range(100, 200);
         for (int i = 0; i < numZombies; i++)
         {
-            Vector3 pos = RandomXZPosition(player.transform.position, 0, 500);
+            Vector3 pos = RandomXZPosition(player.transform.position, -250, 250);
             pos.y = 0.1f;
             Instantiate(zombie, pos, Quaternion.identity);
         }
