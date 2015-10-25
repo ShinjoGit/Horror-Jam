@@ -46,6 +46,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_IsCrouching;
         private float m_crouchDelta;
         private float m_CameraCrouchHeight;
+        //Jump Roll
+        private bool m_IsRolling;
         // Use this for initialization
         private void Start()
         {

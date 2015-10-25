@@ -16,7 +16,6 @@ public class Zombie_Behavior : MonoBehaviour {
 	void Start () 
     {
         DistanceToTarget = 100.0f;
-        AttackProxomity = 2.5f;
         WakeUpDistance = 11.0f;
 	}
 	

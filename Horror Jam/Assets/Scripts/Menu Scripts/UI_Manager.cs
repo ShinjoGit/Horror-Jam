@@ -28,12 +28,15 @@ public class UI_Manager : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-        seconds += Time.deltaTime;
-        checkTime();
+        if (!GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCollision>().dead)
+        {
+            seconds += Time.deltaTime;
+            checkTime();
 
-        timer.text = "Time: " + hours + " : " + minutes + " : " + seconds.ToString("F0");
-        numScore += 1;
-        score.text = "ScOre: " + numScore;
+            timer.text = "Time: " + hours + " : " + minutes + " : " + seconds.ToString("F0");
+            numScore += 1;
+            score.text = "ScOre: " + numScore;
+        }
 	}
 
     void checkTime()
