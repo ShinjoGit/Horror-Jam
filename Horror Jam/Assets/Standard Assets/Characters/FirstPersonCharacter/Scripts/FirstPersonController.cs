@@ -20,7 +20,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private MouseLook m_MouseLook;
         [SerializeField] private bool m_UseFovKick;
         [SerializeField] private FOVKick m_FovKick = new FOVKick();
-        [SerializeField] private bool m_UseHeadBob;
+        [SerializeField] public bool m_UseHeadBob;
         [SerializeField] private CurveControlledBob m_HeadBob = new CurveControlledBob();
         [SerializeField] private LerpControlledBob m_JumpBob = new LerpControlledBob();
         [SerializeField] private float m_StepInterval;
@@ -42,10 +42,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
-        //Modded FP stuff
+        //Crouching
         private bool m_IsCrouching;
-        private float height;
-
+        private float m_crouchDelta;
+        private float m_CameraCrouchHeight;
         // Use this for initialization
         private void Start()
         {
@@ -56,8 +56,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_HeadBob.Setup(m_Camera, m_StepInterval);
             m_StepCycle = 0f;
             m_NextStep = m_StepCycle/2f;
-            height = 2.0f;
             m_Jumping = false;
+            m_crouchDelta = m_CharacterController.height / 2;
+            m_CameraCrouchHeight = m_OriginalCameraPosition.y/4;
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
         }
@@ -76,7 +77,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
             {
                 StartCoroutine(m_JumpBob.DoBobCycle());
+               
                 PlayLandingSound();
+                
                 m_MoveDir.y = 0f;
                 m_Jumping = false;
             }
@@ -114,7 +117,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_MoveDir.z = desiredMove.z*speed;
 
 
-            if (m_CharacterController.isGrounded)
+            if (m_CharacterController.isGrounded && !m_IsCrouching)
             {
                 m_MoveDir.y = -m_StickToGroundForce;
 
@@ -182,6 +185,34 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void UpdateCameraPosition(float speed)
         {
+            if (m_IsCrouching)
+            {
+                if (m_Camera.transform.localPosition.y > m_CameraCrouchHeight)
+                {
+                    if (m_Camera.transform.localPosition.y - (m_crouchDelta * Time.deltaTime * 8) < m_CameraCrouchHeight)
+                    {
+                        m_Camera.transform.localPosition = new Vector3(0, m_CameraCrouchHeight, 0);
+                    }
+                    else
+                    {
+                        m_Camera.transform.localPosition -= new Vector3(0, m_crouchDelta * Time.deltaTime * 8, 0);
+                    }
+                }
+            }
+            else
+            {
+                if (m_Camera.transform.localPosition.y < m_OriginalCameraPosition.y)
+                {
+                    if (m_Camera.transform.localPosition.y + (m_crouchDelta * Time.deltaTime * 8) > m_OriginalCameraPosition.y)
+                    {
+                        m_Camera.transform.localPosition = new Vector3(0, m_OriginalCameraPosition.y, 0);
+                    }
+                    else
+                    {
+                        m_Camera.transform.localPosition += new Vector3(0, m_crouchDelta * Time.deltaTime * 8, 0);
+                    }
+                }
+            }
             Vector3 newCameraPosition;
             if (!m_UseHeadBob)
             {
@@ -202,6 +233,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             m_Camera.transform.localPosition = newCameraPosition;
             
+
         }
 
 
@@ -217,22 +249,25 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // On standalone builds, walk/run speed is modified by a key press.
             // keep track of whether or not the character is walking or running
             m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
-            m_IsCrouching = Input.GetKey(KeyCode.C);
+            if( Input.GetKeyDown(KeyCode.C))
+            {
+                if (m_IsCrouching)
+                {
+                    StopCrouching();
+                }
+                else
+                {
+                    Crouch();
+                }
+            }
 
 #endif
 
-            if (gameObject.GetComponent<CharacterController>().height < height)
-            {
-                gameObject.GetComponent<CharacterController>().height += 0.25f;
-            }
+           
             // set the desired speed to be walking or running
             speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
 
-            if (m_IsCrouching)
-            {
-                gameObject.GetComponent<CharacterController>().height *= 0.25f;
-                speed = m_WalkSpeed * 0.5f;
-            }
+           
             m_Input = new Vector2(horizontal, vertical);
 
             // normalize input if it exceeds 1 in combined length:
@@ -250,7 +285,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
+        private void Crouch()
+        {
+            m_CharacterController.height -= m_crouchDelta;
+            m_IsCrouching = true;
+        }
 
+        private void StopCrouching()
+        {
+            m_CharacterController.height += m_crouchDelta;
+            m_IsCrouching = false;
+        }
+       
         private void RotateView()
         {
             m_MouseLook.LookRotation (transform, m_Camera.transform);

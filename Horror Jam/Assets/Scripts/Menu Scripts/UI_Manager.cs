@@ -22,7 +22,7 @@ public class UI_Manager : MonoBehaviour
         hours = 0;
         minutes = 0;
         seconds = 0;
-
+        numScore = 0;
     }
 
     // Update is called once per frame
