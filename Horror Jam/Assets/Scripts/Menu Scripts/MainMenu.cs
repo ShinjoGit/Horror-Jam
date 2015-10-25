@@ -25,7 +25,7 @@ public class MainMenu : MonoBehaviour
         {
             if ((Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0)) && selected != 0)
             {
-                //transition = true;
+                transition = true;
                 //float fadetime = GameManager.manager.GetComponent<Fade>().BeginFade(1);
                 _button[selected - 1].onClick.Invoke();
                 //Invoke("PauseLoad", fadetime);
